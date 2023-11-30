@@ -63,6 +63,7 @@ class UserData {
   String? documentDetail;
   String? documentFile;
   String? examPercentage;
+  String? plan_active;
 
   UserData(
       {this.id,
@@ -92,6 +93,7 @@ class UserData {
         this.languages,
         this.braintreeId,
         this.fbUrl,
+        this.plan_active,
         this.twitterUrl,
         this.youtubeUrl,
         this.linkedinUrl,
@@ -132,6 +134,7 @@ class UserData {
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
     id: json['id'] ?? 00,
+    plan_active: json['plan_active'] ?? '0',
     fname:  json['fname'] ?? '',
     fullName: json['full_name'] ?? '',
     fathersName: json['fathers_name'] ?? '',
@@ -199,6 +202,7 @@ class UserData {
 
   Map<String, dynamic>  toJson() => {
     'id': id,
+    'plan_active': plan_active,
     'fname': fname,
     'full_name': fullName,
     'fathers_name': fathersName,

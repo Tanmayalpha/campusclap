@@ -1,4 +1,7 @@
 
+import 'dart:ui';
+
+import 'package:campusclap/local_repository/preferences.dart';
 import 'package:campusclap/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +16,12 @@ class CoursesPage extends StatefulWidget {
 }
 
 class _CoursesPageState extends State<CoursesPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,7 +74,21 @@ class _CoursesPageState extends State<CoursesPage> {
               shrinkWrap: true,
               itemCount: 5,
               itemBuilder: (context, index) {
-                return coursesWidget(index: index);
+                return isPlaneActive == '0' ? Stack(
+                  children: [
+                    coursesWidget(index: index),
+                    SizedBox(
+                      //  width: 600,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                        child: Container(
+                          //color: Colors.black.withOpacity(0.1),
+                        ),
+                      ),
+                    )
+                  ],
+                ) : coursesWidget(index: index);
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(
@@ -157,5 +180,30 @@ class _CoursesPageState extends State<CoursesPage> {
         ],
       ),
     );
+  }
+
+  String ? isPlaneActive ;
+  void  getUserData() async{
+    /* name = await LocalRepository.getPrefrence(LocalRepository.userName);
+    email = (await LocalRepository.getPrefrence(LocalRepository.userEmail));*/
+    isPlaneActive = (await LocalRepository.getPrefrence(LocalRepository.userPlaneActiveStatus));
+    setState(() {
+
+    });
+
+    /*String? data1 = ll?.replaceAllMapped(RegExp(r'(?<=\{| )\w(.*?)(?=\: |, |})'), (match) {
+      //return '"${match.group(0)!}"';
+     final value = match.group(0)!;
+
+     // Check if the value is empty and handle accordingly
+     return value.isEmpty ? '$value' : '"$value"';
+    });*/
+
+
+
+    //var data = json.decode(data1!);
+
+
+
   }
 }

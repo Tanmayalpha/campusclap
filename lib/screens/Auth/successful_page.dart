@@ -53,7 +53,7 @@ class _SubscriptionSuccessScreenState extends State<SubscriptionSuccessScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.22,
               width: MediaQuery.of(context).size.width,
-              child: Image(image: AssetImage('assets/images/paymentSuccess.png')),
+              child: const Image(image: AssetImage('assets/images/paymentSuccess.png')),
             ),
             const SizedBox(
               height: 25,

@@ -15,6 +15,10 @@ class LocalRepository {
   static const isLogin = 'isLogin';
   static const token = 'token';
   static const userData = 'userData';
+  static const userEmail = 'userEmail';
+  static const userName = 'userName';
+  static const userPlaneActiveStatus = 'isPlaneActive';
+  static const userProfile = 'userProfile';
   static const language = 'language';
   static const cartListLength = 'cartListLength';
   static const selectedBrand = 'selectedBrand';
@@ -27,7 +31,7 @@ class LocalRepository {
     preference.setString(key, value);
   }
 
-  Future<String?> getPrefrence(String key) async {
+  static Future<String?> getPrefrence(String key) async {
    SharedPreferences preference = await SharedPreferences.getInstance();
 
    return preference.getString(key);
@@ -53,13 +57,13 @@ class LocalRepository {
   //   return _sharedPreferences.getStringList(key) ?? [];
   // }
 
-  Future<bool> getPrefrenceBool(String key) async {
+  static Future<bool> getPrefrenceBool(String key) async {
    SharedPreferences preference = await SharedPreferences.getInstance();
 
    return preference.getBool(key) ?? false;
   }
 
-  Future<void> clearUserSession(BuildContext context) async {
+  static Future<void> clearUserSession(BuildContext context) async {
    SharedPreferences preference = await SharedPreferences.getInstance();
 
    await preference.clear();

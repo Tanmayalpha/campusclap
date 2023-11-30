@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+
+import 'package:campusclap/local_repository/preferences.dart';
 import 'package:campusclap/screens/paymentHistory.dart';
 import 'package:campusclap/screens/terms_condition.dart';
 import 'package:campusclap/utils/app_bar.dart';
@@ -7,6 +10,7 @@ import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'Auth/login_page.dart';
+import 'Auth/subscription_plan.dart';
 import 'contactUsPage.dart';
 import 'courses_screen.dart';
 import 'faq.dart';
@@ -29,6 +33,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget? _child;
   int selectedIndex = 2;
   int currentIndex = 99;
+  String?  name ;
+  String?  email ;
+  String?  isPlaneActive ;
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   void initState() {
@@ -43,6 +50,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       _child = const HomePageWidget();
     }
 
+getUserData();
     super.initState();
   }
 
@@ -77,7 +85,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           body: _child,
           drawer: Drawer(
             child: ListView(children: [
-              const DrawerHeader(
+               DrawerHeader(
                 decoration: BoxDecoration(
                   // border: Border(bottom: BorderSide(color: Colors.black)),
                     gradient: LinearGradient(
@@ -103,14 +111,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Johan Deo',
+                          name ?? '',
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                         Text(
-                          'Johandeo@gmail.com',
+                          email ?? '',
                           style: TextStyle(fontSize: 12, color: Colors.white),
                         ),
                       ],
@@ -120,10 +128,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
               ),
               InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const  MyProfileScreen()),
-                    );
+                    if(isPlaneActive == '0'){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const  SubscriptionPlanScreen()),
+                      );
+                    }else {
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const  MyProfileScreen()),
+                      );
+                    }
+
 
                     setState(() {
                       currentIndex = 1;
@@ -138,7 +155,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():  InkWell(
                    onTap: () {
                     Navigator.push(
                       context,
@@ -158,7 +175,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -177,7 +194,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -198,7 +215,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -219,7 +236,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():InkWell(
                   onTap: () {
                       Navigator.push(
                         context,
@@ -239,7 +256,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               const SizedBox(
                 height: 5,
               ),
-              InkWell(
+              isPlaneActive == '0' ? const SizedBox():InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -437,6 +454,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void _handleNavigationChange(int index) {
     setState(() {
       selectedIndex = index;
+
       switch (index) {
         case 0:
           _child = const JobOfferWidget();
@@ -461,6 +479,30 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: _child,
       );
     });
+  }
+
+  void  getUserData() async{
+    name = await LocalRepository.getPrefrence(LocalRepository.userName);
+    email = (await LocalRepository.getPrefrence(LocalRepository.userEmail));
+    isPlaneActive = (await LocalRepository.getPrefrence(LocalRepository.userPlaneActiveStatus));
+    setState(() {
+
+    });
+
+   /*String? data1 = ll?.replaceAllMapped(RegExp(r'(?<=\{| )\w(.*?)(?=\: |, |})'), (match) {
+      //return '"${match.group(0)!}"';
+     final value = match.group(0)!;
+
+     // Check if the value is empty and handle accordingly
+     return value.isEmpty ? '$value' : '"$value"';
+    });*/
+
+
+
+    //var data = json.decode(data1!);
+
+
+
   }
 }
 

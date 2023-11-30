@@ -64,8 +64,8 @@ class User {
   String? countryId;
   String? gender;
   String? pinCode;
-  int? status;
-  int? verified;
+  String? status;
+  String? verified;
   String? userImg;
   String? role;
   String? emailVerifiedAt;
@@ -102,6 +102,7 @@ class User {
   String? affiliateId;
   String? referredBy;
   String? referralCode;
+  String? plan_active;
   String? age;
   int? isVerify;
   int? isBlocked;
@@ -140,6 +141,7 @@ class User {
         this.languages,
         this.braintreeId,
         this.fbUrl,
+        this.plan_active,
         this.twitterUrl,
         this.youtubeUrl,
         this.linkedinUrl,
@@ -196,8 +198,8 @@ class User {
     countryId = json['country_id'] ?? '';
     gender = json['gender'] ?? '';
     pinCode = json['pin_code'] ?? '';
-    status = json['status'] ?? '';
-    verified = json['verified'] ??'';
+    status = json['status'].toString() ?? '';
+    verified = json['verified'].toString() ??'';
     userImg = json['user_img'] ?? '';
     role = json['role'] ?? '';
     emailVerifiedAt = json['email_verified_at'] ?? '';
@@ -236,13 +238,14 @@ class User {
     referralCode = json['referral_code'] ?? '';
     age = json['age'] ?? '';
     isVerify = json['is_verify'] ?? 1;
-    isBlocked = json['is_blocked'] ?? '';
+    isBlocked = json['is_blocked'] ?? 0;
     blockNote = json['block_note'] ?? '';
     registerationFee = json['registeration_fee'] ?? '';
     isPaid = json['is_paid'] ?? 0;
     documentDetail = json['document_detail'] ?? '';
     documentFile = json['document_file'] ?? '';
     examPercentage = json['exam_percentage'] ?? '';
+    plan_active = json['plan_active'].toString() ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -311,6 +314,7 @@ class User {
     data['document_detail'] = documentDetail;
     data['document_file'] = documentFile;
     data['exam_percentage'] = examPercentage;
+    data['plan_active'] = plan_active;
     return data;
   }
 }

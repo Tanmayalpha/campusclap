@@ -1,7 +1,11 @@
 
+import 'dart:ui';
+
 import 'package:campusclap/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+
+import '../local_repository/preferences.dart';
 
 class JobOfferWidget extends StatefulWidget {
   const JobOfferWidget({super.key});
@@ -11,6 +15,12 @@ class JobOfferWidget extends StatefulWidget {
 }
 
 class _JobOfferWidgetState extends State<JobOfferWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +38,11 @@ class _JobOfferWidgetState extends State<JobOfferWidget> {
               onChanged: (value) {},
               decoration: InputDecoration(
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 fillColor: Colors.white,
                 filled: true,
                 hintText: 'Search',
-                hintStyle: TextStyle(color: Colors.black),
+                hintStyle: const TextStyle(color: Colors.black),
                 prefixIcon: Icon(
                   Icons.search,
                   color: Colors.black,
@@ -51,7 +61,7 @@ class _JobOfferWidgetState extends State<JobOfferWidget> {
                     borderSide: BorderSide(color: Colors.white, width: 1)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ListView.separated(
@@ -59,10 +69,24 @@ class _JobOfferWidgetState extends State<JobOfferWidget> {
               shrinkWrap: true,
               itemCount: 10,
               itemBuilder: (context, index) {
-                return jobOpeningContainer();
+                return isPlaneActive == '0' ? Stack(
+                  children: [
+                    jobOpeningContainer(),
+                    SizedBox(
+                      //  width: 600,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                        child: Container(
+                          //color: Colors.black.withOpacity(0.1),
+                        ),
+                      ),
+                    )
+                  ],
+                ) : jobOpeningContainer();
               },
               separatorBuilder: (context, index) {
-                return SizedBox(
+                return const SizedBox(
                   height: 10,
                 );
               },
@@ -207,5 +231,30 @@ class _JobOfferWidgetState extends State<JobOfferWidget> {
         style: TextStyle(fontSize: 12),
       ),
     );
+  }
+
+  String ? isPlaneActive ;
+  void  getUserData() async{
+    /* name = await LocalRepository.getPrefrence(LocalRepository.userName);
+    email = (await LocalRepository.getPrefrence(LocalRepository.userEmail));*/
+    isPlaneActive = (await LocalRepository.getPrefrence(LocalRepository.userPlaneActiveStatus));
+    setState(() {
+
+    });
+
+    /*String? data1 = ll?.replaceAllMapped(RegExp(r'(?<=\{| )\w(.*?)(?=\: |, |})'), (match) {
+      //return '"${match.group(0)!}"';
+     final value = match.group(0)!;
+
+     // Check if the value is empty and handle accordingly
+     return value.isEmpty ? '$value' : '"$value"';
+    });*/
+
+
+
+    //var data = json.decode(data1!);
+
+
+
   }
 }

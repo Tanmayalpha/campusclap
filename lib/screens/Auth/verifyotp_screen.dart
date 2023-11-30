@@ -246,6 +246,13 @@ class _VerificationState extends State<Verification> {
 
           LocalRepository.setPrefrence(
               LocalRepository.userData, userdata.toJson().toString());
+          LocalRepository.setPrefrence(
+              LocalRepository.userName, getData['data']['user']['fname']);
+          LocalRepository.setPrefrence(
+              LocalRepository.userEmail, getData['data']['user']['email']);
+          LocalRepository.setPrefrence(
+              LocalRepository.userPlaneActiveStatus, getData['data']['user']['plan_active']);
+
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => BottomNavBar()));
         } else {
