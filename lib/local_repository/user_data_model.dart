@@ -16,8 +16,8 @@ class UserData {
   String? countryId;
   String? gender;
   String? pinCode;
-  int? status;
-  int? verified;
+  String? status;
+  String? verified;
   String? userImg;
   String? role;
   String? emailVerifiedAt;
@@ -55,8 +55,8 @@ class UserData {
   String? referredBy;
   String? referralCode;
   String? age;
-  int? isVerify;
-  int? isBlocked;
+  String? isVerify;
+  String? isBlocked;
   String? blockNote;
   String? registerationFee;
   int? isPaid;
@@ -151,8 +151,8 @@ class UserData {
     countryId: json['country_id'] ?? '',
     gender: json['gender'] ?? '',
     pinCode: json['pin_code'] ?? '',
-    status: json['status'] ?? '',
-    verified: json['verified'] ??'',
+    status: json['status'].toString() ?? '',
+    verified: json['verified'].toString() ??'',
     userImg: json['user_img'] ?? '',
     role: json['role'] ?? '',
     emailVerifiedAt: json['email_verified_at'] ?? '',
@@ -190,7 +190,7 @@ class UserData {
     referredBy: json['referred_by'] ?? '',
     referralCode: json['referral_code'] ?? '',
     age: json['age'] ?? '',
-    isVerify: json['is_verify'] ?? 1,
+    isVerify: json['is_verify'] ?? '1',
     isBlocked: json['is_blocked'] ?? '',
     blockNote: json['block_note'] ?? '',
     registerationFee: json['registeration_fee'] ?? '',

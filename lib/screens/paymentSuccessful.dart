@@ -86,7 +86,7 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
             Container(
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.13),
-              child: FilledBtn(
+              child: ComenBtn(
                 title: 'Go To Home',
                 onPress: () {
                   // Navigator.push(

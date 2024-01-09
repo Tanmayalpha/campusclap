@@ -1,25 +1,40 @@
 
+import 'dart:convert';
+
+import 'package:campusclap/commen/apidata.dart';
 import 'package:campusclap/utils/btn.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/globle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart' as http;
+
 
 import 'bottom_navBar.dart';
 
-class RegistrationSuccessWidget extends StatefulWidget {
-  const RegistrationSuccessWidget({super.key});
+class RegistrationSuccessScreen extends StatefulWidget {
+  const RegistrationSuccessScreen({super.key});
 
   @override
-  State<RegistrationSuccessWidget> createState() =>
-      _RegistrationSuccessWidgetState();
+  State<RegistrationSuccessScreen> createState() =>
+      _RegistrationSuccessScreenState();
 }
 
-class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
+class _RegistrationSuccessScreenState extends State<RegistrationSuccessScreen> {
+
+  bool isLoading = false ;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getContent() ;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colors.bgColor,
-      body: Container(
+      body: isLoading ? const Center(child: CircularProgressIndicator(color: colors.primary),) :  Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -47,7 +62,7 @@ class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
                           ],
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15)),
-                      child: const Column(
+                      child:  Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
@@ -61,7 +76,8 @@ class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
                             height: 10,
                           ),
                           Text(
-                            "your account Created Successfully",
+                            "your account Created Successfully ! \n$content ",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -73,13 +89,13 @@ class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
                       ),
                     ),
                   ),
-                  
+
                   Container(
                       height: MediaQuery.of(context).size.height * 0.3,
                       child: const Center(
                         child: Image(
-                            image: AssetImage('assets/images/Group71860.png')),
-                      )),
+                            image: AssetImage('assets/images/yeeeeeeeeeehhhh.png')),
+                      ))
                 ],
                 
               ),
@@ -92,12 +108,12 @@ class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
             Container(
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.13),
-              child: FilledBtn(
-                title: 'CONTINUE',
+              child: ComenBtn(
+                title: 'Get Certification',
                 onPress: () {
                    Navigator.push(
                          context,
-                         MaterialPageRoute(builder: (context) => BottomNavBar()),
+                         MaterialPageRoute(builder: (context) => BottomNavBar(dIndex: 1,)),
                        );
 
                 },
@@ -108,4 +124,37 @@ class _RegistrationSuccessWidgetState extends State<RegistrationSuccessWidget> {
       ),
     );
   }
+
+String content = 'Enhance your profile by gaining certifications! Explore free courses on the platform';
+  Future<void> getContent() async {
+    setState(() {
+      isLoading = true ;
+    });
+
+    authToken = await storage.read(key: "token");
+    String url = APIData.addToCart + "${APIData.secretKey}";
+    http.Response res = await http.post(Uri.parse(url), body: {
+      "slug": 'post-profile-completion'
+    }, headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $authToken",
+    });
+    print('${res.statusCode}______addtocart_______');
+    print('${res.body}__________addtocart___');
+
+    if (res.statusCode == 200) {
+
+      var result = jsonDecode(res.body) ;
+      content = result ['content']  ;
+      setState(() {
+        isLoading = false ;
+      });
+
+    } else {
+      setState(() {
+        isLoading = false ;
+      });
+    }
+  }
+
 }

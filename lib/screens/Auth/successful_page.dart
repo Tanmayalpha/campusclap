@@ -2,6 +2,7 @@
 import 'package:campusclap/screens/College_details.dart';
 import 'package:campusclap/screens/bottom_navBar.dart';
 import 'package:campusclap/screens/homepage_screen.dart';
+import 'package:campusclap/screens/myprofile_screen.dart';
 import 'package:campusclap/screens/personal_information.dart';
 import 'package:campusclap/utils/btn.dart';
 import 'package:campusclap/utils/color.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class SubscriptionSuccessScreen extends StatefulWidget {
-  const SubscriptionSuccessScreen({super.key});
+  final bool? isFromDrawerMenu;
+  const SubscriptionSuccessScreen({super.key,this.isFromDrawerMenu});
 
   @override
   State<SubscriptionSuccessScreen> createState() => _SubscriptionSuccessScreenState();
@@ -79,13 +81,21 @@ class _SubscriptionSuccessScreenState extends State<SubscriptionSuccessScreen> {
             Container(
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.13),
-              child: FilledBtn(
-                title: 'CREATE ACCOUNT',
+              child: ComenBtn(
+                title: widget.isFromDrawerMenu ?? false ? 'VIEW PROFILE' :'COMPLETE PROFILE',
                 onPress: () {
-                  Navigator.push(context,
-                                   MaterialPageRoute(
-                                       builder: (context) =>  BottomNavBar()),
-                                 );
+                  if(widget.isFromDrawerMenu ?? false) {
+                    Navigator.pushReplacement(context,
+                      MaterialPageRoute(
+                            builder: (context) =>  const MyProfileScreen()),
+                    );
+                  }else {
+                    Navigator.pushReplacement(context,
+                      MaterialPageRoute(
+                          builder: (context) =>   College_Details(isFromDrawerMenu: widget.isFromDrawerMenu,)),
+                    );
+                  }
+
                 },
               ),
             )

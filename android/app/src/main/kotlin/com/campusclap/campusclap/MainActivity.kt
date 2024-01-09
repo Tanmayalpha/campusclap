@@ -1,4 +1,4 @@
-package com.campusclap.campusclap
+package com.campusclap.app
 
 import io.flutter.embedding.android.FlutterActivity
 

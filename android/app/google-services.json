@@ -1,0 +1,29 @@
+  {
+  "project_info": {
+    "project_number": "8438040100",
+    "project_id": "campus-clap",
+    "storage_bucket": "campus-clap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8438040100:android:80298e215258aa76623ab1",
+        "android_client_info": {
+          "package_name": "com.campusclap.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOcoPnqBawNH3iRTOL4HhZnMlVpMuwV_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

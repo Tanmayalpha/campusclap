@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:campusclap/utils/app_bar.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/globle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:http/http.dart';
+
+import '../commen/apidata.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({super.key});
@@ -12,6 +19,12 @@ class PrivacyPolicy extends StatefulWidget {
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getterms();
+  }
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -19,65 +32,39 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(80),
                 child: commonAppBar(context, text: "Privacy & Policy")),
-            body: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                decoration: const BoxDecoration(
-                  // const BorderRadius.all(Radius.Radius),
-                  border: Border(
-                    top: BorderSide(
-                      //  BorderRadius.all(Radius.Radius),
-                      color: colors.primary,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        "Our Privacy Policy",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "Last update january 2022",
-                        style: TextStyle(fontSize: 10),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        '1. Using our Service',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy and typesetting industry. Lorem Ipsum industry\'s standard dummy when an unknown printer took a galley of type and scrambled it and typesetting industry. Lorem Ipsum industry\'s standard dummy since the 1500s, when an unknown printer took a galley of type',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy text of the Lorem Ipsum is simply dummy and typesetting industry. Lorem Ipsum industry\'s standard dummy when an unknown printer took a galley of type and scrambled it and typesetting industry. Lorem Ipsum industry\'s standard dummy since the 1500s, when an unknown printer took a galley of type',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
-                      ),
-                    ),
-                  ],
-                ))));
+            body: isLoading ? const Center(child: CircularProgressIndicator(),)  : SingleChildScrollView(child: Html(data: data,))));
+  }
+
+  bool isLoading = false ;
+
+  var data ;
+  Future<void> getterms() async {
+    setState(() {
+      isLoading = true;
+    });
+    final String coursesURL = "${APIData.termsCondition}${APIData.secretKey}";
+    print("All Courses API Status Code : ${coursesURL}");
+
+    Response res = await get(Uri.parse(coursesURL), headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $authToken",
+    });
+
+
+
+    if (res.statusCode == 200) {
+
+      var result = jsonDecode(res.body);
+      data = result['terms_policy'][0]['policy'];
+
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      throw "Can't get courses.";
+    }
   }
 }

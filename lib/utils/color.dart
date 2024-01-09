@@ -46,6 +46,11 @@ extension colors on ColorScheme {
    static const Color line = Color(0xff2A2A2A);
     static const Color text = Color(0xffEEEEEE);
 
+  static List<Color> get gradientColorsList => [
+    primary,
+    secondary,
+  ];
+
   // bool get apcolor  =>
   //      this.apcolor == number > 0 && number < 100;
   // this.brightness == Brightness.light ? primary : primary;
@@ -80,6 +85,8 @@ extension colors on ColorScheme {
   static const Color darkYellow = Color(0xFFF58634);
   static const Color darkRed = Color(0xFFED2F59);
   static const Color lightgray = Color(0xFFFBFBFB);
+  static const Color textColor = Color(0xFF3F4654);
+
 
   static const Color yellow = Color(0xfffdb403);
 

@@ -1,19 +1,32 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:campusclap/Models/get_profile_response.dart';
+import 'package:campusclap/Services/api_services/apiConstants.dart';
+import 'package:campusclap/Services/api_services/apiStrings.dart';
 import 'package:campusclap/screens/personal_information.dart';
 import 'package:campusclap/screens/upload_image.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/globle.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'Academic_details.dart';
 import 'College_details.dart';
 
 class MyProfileScreen extends StatefulWidget {
-  const MyProfileScreen({super.key});
+  const MyProfileScreen({super.key,this.isDrawer });
+  final bool? isDrawer ;
 
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileData ();
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -37,9 +50,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
+                     widget.isDrawer ?? false ? InkWell(
                         onTap: () {
-                          //   Navigator.pop(context);
+                             Navigator.pop(context);
                         },
                         child: Container(
                           // margin: EdgeInsets.all(10),
@@ -52,16 +65,18 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             color: colors.secondary,
                           ),
                         ),
-                      ),
-                      Container(
-                        child: const Text(
+                      ) : const SizedBox(width: 35,),
+
+                      const Column(children: [
+                        SizedBox(height: 10,),
+                        Text(
                           "My Profile",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                        )
+                      ],),
                       Container(
                         // margin: EdgeInsets.all(10),
                         padding: const EdgeInsets.all(10),
@@ -83,17 +98,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 const SizedBox(
                   height: 50,
                 ),
-                const Center(
+                 Center(
                     child: Text(
-                  "Johan Deo",
+                      profileData?.fname ?? "",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )),
                 const SizedBox(
                   height: 5,
                 ),
-                const Center(
+                 Center(
                     child: Text(
-                  "Ui/Ux designer",
+                      profileData?.email ?? '',
                   style: TextStyle(fontSize: 20),
                 )),
                 const SizedBox(
@@ -104,8 +119,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PersonalInformation()),
-                    );
+                          builder: (context) => const PersonalInformation(isPromDrawerMenu: true,)),
+                    ).then((value)  {
+
+                      if(value !=null) {
+                           getProfileData();
+                      }
+
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -142,8 +163,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const College_Details()),
-                    );
+                          builder: (context) => const College_Details(isFromDrawerMenu: true,)),
+                    ).then((value)  {
+
+                      if(value !=null) {
+                        getProfileData();
+                      }
+
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -180,8 +207,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Academic_details()),
-                    );
+                          builder: (context) => const AcademicDetails(isFromDrawerMenu: true,)),
+                    ).then((value)  {
+
+                      if(value !=null) {
+                        getProfileData();
+                      }
+
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -218,8 +251,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Upload_image()),
-                    );
+                          builder: (context) => const UploadProfileDocScreen(isFromDrawerMenu: true,)),
+                    ).then((value)  {
+
+                      if(value !=null) {
+                        getProfileData();
+                      }
+
+                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -255,12 +294,39 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         Container(
           height: MediaQuery.of(context).size.height * 0.31,
           alignment: Alignment.bottomCenter,
-          child: const CircleAvatar(
-            radius: 55,
-            backgroundImage: AssetImage("assets/images/profile.png"),
-          ),
+          child:  CachedNetworkImage(imageUrl: profileData?.selfieImage ?? '', placeholder: (context, url) => const CircleAvatar(
+              radius: 55,
+              backgroundImage: AssetImage(
+                "assets/placeholder/avatar.png",
+              )),
+            imageBuilder: (context, imageProvider) => Container(
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(55.0),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            errorWidget: (context, url, error) =>  CircleAvatar(
+              radius: 55,
+            backgroundImage: NetworkImage(
+                "https://picsum.photos/800/600/?random",
+            )),),
         )
       ],
     );
   }
+
+  ProfileData? profileData;
+getProfileData () async{
+  profileData = await getProfile();
+  setState(() {
+
+  });
+}
+
+
 }

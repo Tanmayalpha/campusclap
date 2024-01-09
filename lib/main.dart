@@ -1,12 +1,23 @@
 import 'package:campusclap/screens/Auth/splash_screen.dart';
+import 'package:campusclap/utils/globle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized();
-
-
+  await FlutterDownloader.initialize(
+      debug: true // optional: set false to disable printing logs to console
+  );
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize("f2adc5ef-22db-4f1f-990a-4a5a623de380");
+  OneSignal.Notifications.requestPermission(true);
+  //await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  authToken = await storage.read(key: "token");
   runApp(const MyApp());
 }
 

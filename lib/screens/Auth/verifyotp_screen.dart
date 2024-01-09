@@ -10,6 +10,7 @@ import 'package:campusclap/screens/bottom_navBar.dart';
 import 'package:campusclap/screens/personal_information.dart';
 import 'package:campusclap/utils/btn.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/globle.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -204,7 +205,7 @@ class _VerificationState extends State<Verification> {
                   ? const Center(
                       child: CircularProgressIndicator(color: colors.primary),
                     )
-                  : FilledBtn(
+                  : ComenBtn(
                       title: 'Verify',
                       onPress: () {
                         if (otp?.length == 4) {
@@ -243,15 +244,19 @@ class _VerificationState extends State<Verification> {
         if (finalResponse.registered ?? false) {
           var userdata = UserData.fromJson(getData['data']['user']);
           token = finalResponse.token ?? '';
-
+            await storage.write(key: "token", value: "$token");
+          authToken = await storage.read(key: "token");
           LocalRepository.setPrefrence(
               LocalRepository.userData, userdata.toJson().toString());
           LocalRepository.setPrefrence(
-              LocalRepository.userName, getData['data']['user']['fname']);
+              LocalRepository.token, token);
+          LocalRepository.setPrefrence(
+              LocalRepository.userName, getData['data']['user']['full_name']);
           LocalRepository.setPrefrence(
               LocalRepository.userEmail, getData['data']['user']['email']);
           LocalRepository.setPrefrence(
               LocalRepository.userPlaneActiveStatus, getData['data']['user']['plan_active']);
+
 
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => BottomNavBar()));
@@ -259,7 +264,7 @@ class _VerificationState extends State<Verification> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => const PersonalInformation()));
+                  builder: (context) =>  PersonalInformation(mobile: widget.mobile,)));
         }
       } else {
         Fluttertoast.showToast(msg: msg);

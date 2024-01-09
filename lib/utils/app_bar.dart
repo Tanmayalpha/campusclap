@@ -1,4 +1,5 @@
 import 'package:campusclap/screens/notificationPage.dart';
+import 'package:campusclap/screens/notifications_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'color.dart';
@@ -258,7 +259,7 @@ Widget homeAppBar(BuildContext context,
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const NotificationPage()),
+                    builder: (context) =>  NotificationScreen()),
               );
             },
             child: Container(
@@ -277,9 +278,9 @@ Widget commonAppBar(BuildContext context,
     {required String text, bool? isActionButton}) {
   return Container(
       height: 80,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       //padding: EdgeInsets.only(top: 10),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
@@ -292,47 +293,112 @@ Widget commonAppBar(BuildContext context,
         children: [
           InkWell(
             onTap: () {
-              //   Navigator.pop(context);
+                 Navigator.pop(context);
             },
             child: Container(
               // margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back,
                 color: colors.secondary,
               ),
             ),
           ),
-          Container(
-            child: Text(
-              text,
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
+          Text(
+            text,
+            style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
           ),
           isActionButton == false
               ? Container(
             width: 40,
           )
-              : Container(
+              : InkWell(
+                onTap: (){
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+                },
+                child: Container(
             // margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10)),
-            child: Icon(
-              Icons.notifications_active_rounded,
-              color: colors.secondary,
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)),
+            child: const Icon(
+                Icons.notifications_active_rounded,
+                color: colors.secondary,
             ),
           ),
+              ),
         ],
       ));
 }
 
+Widget commonAppBar2(BuildContext context,
+    {required String text, bool? isActionButton}) {
+  return Container(
+      height: 80,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      //padding: EdgeInsets.only(top: 10),
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [colors.primary, colors.secondary]),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () {
+              // Navigator.pop(context);
+            },
+            child: Container(
+              // margin: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
+              child: const Icon(
+                Icons.arrow_back_outlined,
+                color: Colors.transparent,
+              ),
+            ),
+          ),
+          Text(
+            text,
+            style: const TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+          isActionButton == false
+              ? Container(
+            width: 40,
+          )
+              : InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationScreen(),));
+            },
+                child: Container(
+            // margin: EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)),
+            child: Icon(
+                Icons.notifications_active_rounded,
+                color: colors.secondary,
+            ),
+          ),
+              ),
+        ],
+      ));
+}
 // class CustomAppbar extends StatefulWidget {
 //   const CustomAppbar({super.key});
 

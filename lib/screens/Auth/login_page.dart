@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                           child:
                               CircularProgressIndicator(color: colors.primary),
                         )
-                      : FilledBtn(
+                      : ComenBtn(
                           title: 'Login',
                           onPress: () {
                             if (_formKey.currentState!.validate()) {

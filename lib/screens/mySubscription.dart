@@ -103,7 +103,7 @@ class _mySubscriptionState extends State<mySubscription> {
                       Container(
                         margin:
                             const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                        child: FilledBtn(
+                        child: ComenBtn(
                           title: 'Subscribed',
                           onPress: () {
                             // Navigator.push(
