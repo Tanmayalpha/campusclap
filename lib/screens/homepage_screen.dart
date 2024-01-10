@@ -16,6 +16,7 @@ import 'package:campusclap/screens/jobs_screen.dart';
 import 'package:campusclap/screens/offeredjobs_screen.dart';
 import 'package:campusclap/utils/btn.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/extentions.dart';
 import 'package:campusclap/utils/globle.dart';
 import 'package:campusclap/widgets/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     getJobs();
     getAppliedJobs();
     getAllCourse();
+    initPurchasedCourses();
   }
   @override
   Widget build(BuildContext context) {
@@ -715,7 +717,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  AppliedJobDetailsScreen(jobId: item.jobId.toString(),)),
+                                  builder: (context) =>  AppliedJobDetailsScreen(jobId: item.jobId.toString(),jobOfferExpireDate: item.lastDate,status: item.jobStatus.toString(),offerPdf: item.pdf.toString())),
                             );
                           },
                           child: Container(
@@ -778,20 +780,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     applyJobHelper(value: '${item.jobDuration}'),
-                    const SizedBox(
+                    /*const SizedBox(
                       width: 10,
-                    ),
+                    ),*/
                     applyJobHelper(value: '${item.jobType}'),
-                    const SizedBox(
+                    /*const SizedBox(
                       width: 10,
-                    ),
-                    applyJobHelper(value: '${item.minExperience}-${item.maxExperience} ${item.experience}'),
+                    ),*/
+                    //applyJobHelper(value: '${item.minExperience}-${item.maxExperience} ${item.experience}'),
                     const SizedBox(
                       width: 10,
                     ),
                      Text(
                       "${daysBetween(DateTime.now(), DateTime.parse('${item.lastDate}T00:00:00.000000Z'))} Days left",
-                      style: TextStyle(color: colors.primary, fontSize: 10,fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: colors.primary, fontSize: 10,fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -808,8 +810,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           borderRadius: BorderRadius.circular(5), color: Colors.grey),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
-        value,
-        style: const TextStyle(fontSize: 12),
+        value.capitalize(),
+        style: const TextStyle(fontSize: 12, color: colors.whiteTemp),
       ),
     );
   }

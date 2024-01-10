@@ -40,9 +40,7 @@ class _College_DetailsState extends State<College_Details> {
     // TODO: implement initState
     super.initState();
     getState();
-    if (widget.isFromDrawerMenu ?? false){
-      getProfileData();
-    }
+
 
   }
   @override
@@ -423,18 +421,18 @@ class _College_DetailsState extends State<College_Details> {
     collegePlaceC.text = profileData?.collegePlace ?? '';
 
     selectedStated = stateList.firstWhere((element) {
-      if(element.id.toString() == profileData?.collegeState) {
+      print('${element.id}');
+      if(element.id.toString() == profileData?.collegeState.toString()) {
         return true ;
       }
       return false ;
     });
 
-    selectedDistrict = cityList.firstWhere((element) {
-      if(element.id.toString() == profileData?.collegeDictrict) {
-        return true ;
-      }
-      return false ;
-    });
+    if(selectedStated !=null){
+      getCity(selectedStated!.id.toString());
+    }
+
+
 
     setState(() {
 
@@ -459,7 +457,9 @@ class _College_DetailsState extends State<College_Details> {
       print(res.body);
       stateList = GetStatesResponse.fromJson(result).data ?? [] ;
 
-
+      if (widget.isFromDrawerMenu ?? false){
+        getProfileData();
+      }
       setState(() {
       });
     } else {
@@ -481,7 +481,14 @@ class _College_DetailsState extends State<College_Details> {
       var result = jsonDecode(res.body);
       print(res.body);
       cityList = GetStatesResponse.fromJson(result).data ?? [];
-
+      setState(() {});
+      ///for visible selected city
+      selectedDistrict = cityList.firstWhere((element) {
+        if(element.id.toString() == profileData?.collegeDictrict.toString()) {
+          return true ;
+        }
+        return false ;
+      });
       setState(() {});
     } else {
       setState(() {});

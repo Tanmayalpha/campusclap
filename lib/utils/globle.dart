@@ -11,6 +11,7 @@ import 'package:campusclap/Models/update_profile_response.dart';
 import 'package:campusclap/Models/watchlist_model.dart';
 import 'package:campusclap/Services/api_services/apiStrings.dart';
 import 'package:campusclap/commen/apidata.dart';
+import 'package:campusclap/local_repository/preferences.dart';
 import 'package:campusclap/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -152,7 +153,7 @@ Future<void> loadData({int delayInSeconds = 0}) async {
     Uri.parse(url),
     headers: {
       "Accept": "application/json",
-      //   "Authorization": "Bearer $authToken",
+      "Authorization": "Bearer $authToken",
     },
   );
   if (response.statusCode == 200) {
@@ -276,6 +277,8 @@ Future<ProfileData?> getProfile() async {
     bool error = getData['status'];
     String msg = getData['message'];
 
+    log('${getData}');
+
     if (error) {
 
       profileData =   GetProfileResponse.fromJson(getData).data ;
@@ -313,7 +316,7 @@ Color getColorByStatus(String status) {
 String getStatusString(String status) {
   switch (status) {
     case '0':
-      return 'Pending';
+      return 'In Progress';
     case '1':
       return 'Interview In Progress';
     case '2':
@@ -362,8 +365,10 @@ Future<MyCoursesModel?> initPurchasedCourses() async {
  // debugPrint('initially purchased${res.statusCode.toString()}');
   if (res.statusCode == 200) {
     myCoursesModel = MyCoursesModel.fromJson(json.decode(res.body));
-    myCoursesModel!.enrollDetails!.forEach((element) {
 
+    studyingList?.clear() ;
+
+    myCoursesModel!.enrollDetails!.forEach((element) {
 
       /*if (element.enroll!.bundleId == null) {*/
         print('${ myCoursesModel!.enrollDetails?.length}_________length___');

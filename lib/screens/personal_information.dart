@@ -696,7 +696,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
     var param = {
       'full_name': studentNameController.text,
       'fathers_name': fatherNameController.text,
-      'mothers_name': mobileController.text,
+      'mothers_name': motherNameController.text,
       'dob': dobController.text,
       'gender': genderController.text,
       'permanent_address': addressController.text,
@@ -822,9 +822,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
 
     languageController.text = list.join(',') ?? '';
 
-    selectedCity = stateList.firstWhere((element) {
+    selectedStated = stateList.firstWhere((element) {
       print(element.id.toString());
-      if(element.id.toString() == profileData?.stateId) {
+      if(element.id.toString() == profileData?.stateId.toString()) {
         return true ;
       }
       return false ;

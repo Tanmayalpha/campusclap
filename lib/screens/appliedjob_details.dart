@@ -8,6 +8,7 @@ import 'package:campusclap/commen/apidata.dart';
 import 'package:campusclap/utils/app_bar.dart';
 import 'package:campusclap/utils/btn.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/extentions.dart';
 import 'package:campusclap/utils/globle.dart';
 import 'package:campusclap/widgets/network_image_widget.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     print('${DateTime.now()}');
+    print('${widget.jobOfferExpireDate}_____________fdfsdf');
 
     return SafeArea(
       child: Scaffold(
@@ -92,7 +94,7 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.status == '2'
-                            ? DateTime.now().isBefore(DateTime.parse(
+                            ? DateTime.now().isAfter(DateTime.parse(
                             '${widget.jobOfferExpireDate}')  ) ? const Text(
                              'Job Offer Expired',
                              style: TextStyle(color: Colors.red),
@@ -294,42 +296,42 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
         alignment: Alignment.topCenter,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 40),
-            padding: EdgeInsets.only(top: 60),
+            margin: const EdgeInsets.only(top: 40),
+            padding: const EdgeInsets.only(top: 60),
             height: MediaQuery.of(context).size.height * 0.25,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                boxShadow: [BoxShadow(color: Colors.grey)],
+                boxShadow: [const BoxShadow(color: Colors.grey)],
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  viewJobDetailResponse?.data?.title ?? '',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  viewJobDetailResponse?.data?.title?.capitalize() ?? '',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(
-                  viewJobDetailResponse?.data?.companyname ?? '',
-                  style: TextStyle(
+                  viewJobDetailResponse?.data?.companyname?.capitalize() ?? '',
+                  style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  viewJobDetailResponse?.data?.location ?? '',
-                  style: TextStyle(
+                  viewJobDetailResponse?.data?.location?.capitalize() ?? '',
+                  style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -339,9 +341,9 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
                         value: '${viewJobDetailResponse?.data?.jobDuration}'),
                     applyJobHelper(
                         value: '${viewJobDetailResponse?.data?.jobType}'),
-                    applyJobHelper(
+                    /*applyJobHelper(
                         value:
-                            '${viewJobDetailResponse?.data?.minExperience}-${viewJobDetailResponse?.data?.maxExperience} ${viewJobDetailResponse?.data?.experience}'),
+                            '${viewJobDetailResponse?.data?.minExperience}-${viewJobDetailResponse?.data?.maxExperience} ${viewJobDetailResponse?.data?.experience}'),*/
                   ],
                 ),
               ],
@@ -497,8 +499,8 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
           borderRadius: BorderRadius.circular(5), color: Colors.grey),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
-        value,
-        style: TextStyle(fontSize: 12),
+        value.capitalize(),
+        style: const TextStyle(fontSize: 12,color: colors.whiteTemp),
       ),
     );
   }

@@ -1026,7 +1026,12 @@ class _AcademicDetailsState extends State<AcademicDetails> {
 
     ///10th and 12th
     /// ---------------------------------------------------------------------------
-    tenthPercentageC.text = profileData?.tenthPercent ?? '';
+    if(profileData?.markFormat10 == 'cgpa'){
+      tenthPercentageC.text = (double.parse(profileData?.tenthPercent ?? '0.0')/9.5).toStringAsFixed(1);
+    }else {
+      tenthPercentageC.text = profileData?.tenthPercent ?? '';
+    }
+
     select10th = profileData?.markFormat10 == 'cgpa'
         ? profileData?.markFormat10?.toString().toUpperCase() ?? 'CGPA'
         : profileData?.markFormat10.toString().capitalize() ?? 'Percent';
@@ -1039,7 +1044,12 @@ class _AcademicDetailsState extends State<AcademicDetails> {
     selectpg = profileData?.markFormatPG == 'cgpa'
         ? profileData?.markFormatPG?.toString().toUpperCase() ?? 'CGPA'
         : profileData?.markFormatPG.toString() ?? 'Aggregate';
-    twelfthPercentageC.text = profileData?.twelthPercent ?? '';
+
+    if(profileData?.twelthPercent == 'cgpa'){
+      twelfthPercentageC.text = (double.parse(profileData?.twelthPercent ?? '0.0')/9.5).toStringAsFixed(1);
+    }else {
+      twelfthPercentageC.text = profileData?.twelthPercent ?? '';
+    }
 
     ///forUG
     /// ---------------------------------------------------------------------------

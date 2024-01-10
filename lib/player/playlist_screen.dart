@@ -1535,7 +1535,7 @@ class _PlayListScreenState extends State<PlayListScreen>
   ScrollController? controller2;
 
   bool isYTFullScreen = false;
-  List<EnrollDetail>? studyingList = [];
+  //List<EnrollDetail>? studyingList = [];
 
   var p;
   @override
@@ -1832,7 +1832,7 @@ class _PlayListScreenState extends State<PlayListScreen>
       Uri.parse(url),
       headers: {
         "Accept": "application/json",
-       // "Authorization": "Bearer $authToken",
+        "Authorization": "Bearer $authToken",
       },
       body: {
         "course_id": courseId.toString(),
@@ -1864,7 +1864,7 @@ class _PlayListScreenState extends State<PlayListScreen>
         Uri.parse(url),
         headers: {
           "Accept": "application/json",
-          // "Authorization": "Bearer $authToken",
+           "Authorization": "Bearer $authToken",
         },
         body: {
           "course_id": courseId,
@@ -1931,6 +1931,7 @@ class _PlayListScreenState extends State<PlayListScreen>
     for (int i = 0; i < studyingList!.length; i++) {
       if (id == studyingList![i].course!.id.toString()) {
         idx = i;
+        print('${studyingList![idx].course!.progress}______Progerss');
         if (studyingList![idx].course!.progress == null) return true;
 
         if (studyingList![idx].course!.progress!.length == 0) {

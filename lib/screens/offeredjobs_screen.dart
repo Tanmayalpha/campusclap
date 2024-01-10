@@ -10,6 +10,7 @@ import 'package:campusclap/screens/appliedjob_details.dart';
 import 'package:campusclap/screens/jobs_screen.dart';
 import 'package:campusclap/utils/app_bar.dart';
 import 'package:campusclap/utils/color.dart';
+import 'package:campusclap/utils/extentions.dart';
 import 'package:campusclap/utils/globle.dart';
 import 'package:campusclap/widgets/network_image_widget.dart';
 
@@ -200,7 +201,7 @@ class _AppliedJobScreenState extends State<AppliedJobScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${item.companyname}",
+                                    "${item.companyname?.capitalize()}",
                                     style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold),
@@ -209,7 +210,7 @@ class _AppliedJobScreenState extends State<AppliedJobScreen> {
                                     height: 5,
                                   ),
                                   Text(
-                                    "${item.location}",
+                                    "${item.location?.capitalize()}",
                                     style: const TextStyle(
                                       fontSize: 13,
                                     ),
@@ -226,7 +227,7 @@ class _AppliedJobScreenState extends State<AppliedJobScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${item.title}",
+                      "${item.title?.capitalize()}",
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
@@ -252,16 +253,16 @@ class _AppliedJobScreenState extends State<AppliedJobScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       applyJobHelper(value: '${item.jobDuration}'),
-                      const SizedBox(
+                      /*const SizedBox(
                         width: 10,
-                      ),
+                      ),*/
                       applyJobHelper(value: '${item.jobType}'),
-                      const SizedBox(
+                      /*const SizedBox(
                         width: 10,
-                      ),
-                      applyJobHelper(
+                      ),*/
+                      /*applyJobHelper(
                           value:
-                              '${item.minExperience}-${item.maxExperience} year'),
+                              '${item.minExperience}-${item.maxExperience} year'),*/
                       const SizedBox(
                         width: 10,
                       ),
@@ -283,10 +284,10 @@ class _AppliedJobScreenState extends State<AppliedJobScreen> {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5), color: Colors.grey),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
-        value,
-        style: TextStyle(fontSize: 12),
+        value.capitalize(),
+        style: const TextStyle(fontSize: 12,color: colors.whiteTemp),
       ),
     );
   }

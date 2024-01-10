@@ -1067,7 +1067,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen>
     var allProgress;
     bool isProgressEmpty = false;
     List<String>? markedChpIds = [];
-    if (widget.isPaid ?? false) {
+
+    if (/*widget.isPaid ?? false*/true) {
       progress = getProgress(widget.detailId);
       allProgress = getAllProgress(widget.detailId);
       if (allProgress == null) {

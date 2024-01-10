@@ -21,11 +21,16 @@ class _MyCoursesState extends State<MyCourses> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    initPurchasedCourses();
+    setState(() {
+      initPurchasedCourses();
+
+    });
   }
   @override
   Widget build(BuildContext context) {
    // CoursesProvider course = Provider.of<CoursesProvider>(context);
+
+    print('${studyingList?.length}________');
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
