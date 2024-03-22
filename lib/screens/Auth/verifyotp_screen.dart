@@ -253,6 +253,8 @@ class _VerificationState extends State<Verification> {
           LocalRepository.setPrefrence(
               LocalRepository.userName, getData['data']['user']['full_name']);
           LocalRepository.setPrefrence(
+              LocalRepository.userId, getData['data']['user']['id'].toString());
+          LocalRepository.setPrefrence(
               LocalRepository.userEmail, getData['data']['user']['email']);
           LocalRepository.setPrefrence(
               LocalRepository.userPlaneActiveStatus, getData['data']['user']['plan_active']);

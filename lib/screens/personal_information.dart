@@ -253,11 +253,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
                   controller: alternateMobileNameController,
                   cursorColor: Colors.black54,
                   keyboardType: TextInputType.number,
+                  maxLength: 10,
                   decoration: CustomInputDecoration.myCustomInputDecoration(
                       hintText: "Alternate Mobile Number"),
                   validator: (v) {
-                    if (v!.isEmpty) {
-                      return " Alternate Mobile Number is required";
+                    if (v!.isNotEmpty && v.length < 10) {
+                      return "Enter valid Alternate Number";
                     }
                     return null;
                   },
@@ -706,8 +707,11 @@ class _PersonalInformationState extends State<PersonalInformation> {
       'languages': langIdList.join(','),
       'mobile': mobileController.text,
       'state_id': selectedStated?.id.toString() ?? '17',
+      'alternate_mobile': alternateMobileNameController.text,
       //'city_id': selectedCity?.id.toString() ?? ''
     };
+
+    print('_________${param}_____________');
 
     apiBaseHelper.postAPICall(userRegisterAPI, param).then((getData) async {
       bool error = getData['status'];
@@ -723,7 +727,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
         LocalRepository.setPrefrence(
             LocalRepository.userName, getData['data']['user']['full_name']);
         LocalRepository.setPrefrence(
-            LocalRepository.userEmail, getData['data']['user']['email']);;
+            LocalRepository.userId, getData['data']['user']['id'].toString());
+        LocalRepository.setPrefrence(
+            LocalRepository.userEmail, getData['data']['user']['email']);
         LocalRepository.setPrefrence(LocalRepository.token, token);
         LocalRepository.setPrefrence(
             LocalRepository.userData, userdata.toJson().toString());
@@ -809,18 +815,28 @@ class _PersonalInformationState extends State<PersonalInformation> {
     addressController.text = profileData?.address.toString() ?? '';
     pinCodeController.text = profileData?.pinCode.toString() ?? '';
     aadhaarController.text = profileData?.aadhaarNumber.toString() ?? '';
+    alternateMobileNameController.text = profileData?.alternateMobile.toString() ?? '';
 
 
-
+///====================================language++++++++++++++++++++
     List<String> list = [];
-    for (var element in languages) {
-      if (profileData!.languageId.toString().contains(element.id.toString())) {
-        list.add(element.name.toString());
+    List<String> values = profileData!.languageId!.split(',');
+
+    for (var value in values) {
+
+      var matchingElement =
+          languages.firstWhere((element) => element.id.toString() == value, orElse: () {
+        return Languages();
+      });
+      if (matchingElement.name != null) {
+        list.add(matchingElement.name.toString());
+
+        profileData?.languageId.toString();
       }
-      profileData?.languageId.toString();
     }
 
     languageController.text = list.join(',') ?? '';
+    ///====================================language++++++++++++++++++++
 
     selectedStated = stateList.firstWhere((element) {
       print(element.id.toString());
@@ -846,6 +862,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
       'languages': langIdList.join(','),
       'mobile': mobileController.text,
       'state_id': selectedStated?.id.toString() ?? '17',
+      'alternate_mobile': alternateMobileNameController.text
     };
     print('${parms}');
 

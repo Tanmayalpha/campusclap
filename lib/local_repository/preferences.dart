@@ -17,6 +17,7 @@ class LocalRepository {
   static const userData = 'userData';
   static const userEmail = 'userEmail';
   static const userName = 'userName';
+  static const userId = 'userId';
   static const userPlaneActiveStatus = 'isPlaneActive';
   static const userProfile = 'userProfile';
   static const language = 'language';

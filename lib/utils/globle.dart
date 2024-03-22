@@ -252,6 +252,7 @@ if(parms.isNotEmpty){
    convertedMap = parms.cast<String, String>();
 }
   UpdateProfileResponse? response ;
+
  await apiBaseHelper.postMultipartAPICall(updateProfileApi, parms.isEmpty ? {}: convertedMap,resume: resume,aadhaar: aadhaar,selfie: selfie).then((getData) async {
     bool error = getData['status'];
      String msg = getData['message'];

@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart'as http;
 
 class AppliedJobDetailsScreen extends StatefulWidget {
   const AppliedJobDetailsScreen(
@@ -58,12 +59,12 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('${DateTime.now()}');
     print('${widget.jobOfferExpireDate}_____________fdfsdf');
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: colors.bgColor,
+        bottomNavigationBar: widget.status == '2' && DateTime.now().isBefore(DateTime.parse('${widget.jobOfferExpireDate}')) ? acceptReject() : SizedBox(),
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80),
             child: commonAppBar(context,
@@ -94,8 +95,7 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.status == '2'
-                            ? DateTime.now().isAfter(DateTime.parse(
-                            '${widget.jobOfferExpireDate}')  ) ? const Text(
+                            ? DateTime.now().isAfter(DateTime.parse('${widget.jobOfferExpireDate}')) ? const Text(
                              'Job Offer Expired',
                              style: TextStyle(color: Colors.red),
                               )  : downloadBtn(() async {
@@ -144,7 +144,7 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
                   ),
                   const SizedBox(
                     height: 20,
-                  )
+                  ),
                 ])),
       ),
     );
@@ -617,6 +617,84 @@ class _AppliedJobDetailsScreenState extends State<AppliedJobDetailsScreen> {
       ),
     );
   }
+  Widget acceptReject() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10,left: 10,bottom: 10,top: 10),
+      child: Row(children: [
+
+        Expanded(child: InkWell(
+          onTap: () {
+            acceptRejectApi('1');
+            // orderAccept("1",TodayDeliverList[index].id.toString());
+          },
+          child: Container(
+            height: 40,
+
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                color: Colors.green,
+              boxShadow: const [BoxShadow(color: Colors.grey,blurRadius: 3,spreadRadius:1,offset: Offset(1,1))]
+
+
+            ),
+
+            child: const Center(child: Text('Accept Offer',style: TextStyle(color: Colors.white)),),),
+        )),
+        const SizedBox(width: 5,),
+        Expanded(child: InkWell(
+          onTap: () {
+            //  orderAccept("0",TodayDeliverList[index].id.toString());
+            acceptRejectApi('2');
+          },
+          child: Container(
+            height: 40,
+
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                color: Colors.red,
+
+      boxShadow: const [BoxShadow(color: Colors.grey,blurRadius: 3,spreadRadius:1,offset: Offset(1,1))]
+
+            ),
+
+            child: const Center(child: Text('Reject Offer', style: TextStyle(color: Colors.white),),),),
+        )),
+
+      ],),
+    );
+  }
+
+  Future<bool> acceptRejectApi(String status) async {
+    String id = widget.jobId ?? '';
+    authToken = await storage.read(key: "token");
+    String url = APIData.acceptJob + "${APIData.secretKey}";
+    http.Response res = await http.post(Uri.parse(url), body: {
+      "applied_job_id": id,
+      "status": status,
+    }, headers: {
+      "Accept": "application/json",
+      "Authorization": "Bearer $authToken",
+    });
+
+    if (res.statusCode == 200) {
+
+      var result = jsonDecode(res.body);
+      bool status = result['status'];
+      String msg = result['message'];
+
+      if(status){
+        Fluttertoast.showToast(msg: msg);
+        if(mounted) {
+          Navigator.pop(context);
+        }
+      }else{
+        Fluttertoast.showToast(msg: msg);
+
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
 
 // Assuming your job rounds data is stored in a variable named jobRoundsDat
@@ -846,6 +924,7 @@ class JobRoundWidget extends StatelessWidget {
       ),
     );
   }
+
 }
 
 // Use the new JobRoundWidget in your existing widget

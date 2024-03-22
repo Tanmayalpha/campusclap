@@ -394,6 +394,18 @@ class _PlayListScreenState extends State<PlayListScreen>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 5.0),
       alignment: Alignment.topLeft,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x1c2464).withOpacity(0.30),
+            blurRadius: 25.0,
+            offset: Offset(0.0, 20.0),
+            spreadRadius: -15.0,
+          )
+        ],
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       child: Material(
         borderRadius: BorderRadius.circular(10.0),
         child: InkWell(
@@ -594,18 +606,6 @@ class _PlayListScreenState extends State<PlayListScreen>
             }
           },
         ),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x1c2464).withOpacity(0.30),
-            blurRadius: 25.0,
-            offset: Offset(0.0, 20.0),
-            spreadRadius: -15.0,
-          )
-        ],
-        borderRadius: BorderRadius.circular(10.0),
       ),
     );
   }
@@ -1393,6 +1393,7 @@ class _PlayListScreenState extends State<PlayListScreen>
                             Row(
                               children: [
                                 Padding(
+                                  padding: EdgeInsets.only(top: 3),
                                   child: Text(
                                     "Starts_at",
                                     maxLines: 1,
@@ -1403,9 +1404,9 @@ class _PlayListScreenState extends State<PlayListScreen>
                                       colors.textColor.withOpacity(0.8),
                                     ),
                                   ),
-                                  padding: EdgeInsets.only(top: 3),
                                 ),
                                 Padding(
+                                  padding: EdgeInsets.only(top: 3),
                                   child: Text(
                                       "${DateFormat('dd-MM-yyyy | hh:mm aa').format(zoomMeetings[i].startTime!)}",
                                       maxLines: 1,
@@ -1415,7 +1416,6 @@ class _PlayListScreenState extends State<PlayListScreen>
                                         color: colors.textColor
                                             .withOpacity(0.8),
                                       )),
-                                  padding: EdgeInsets.only(top: 3),
                                 ),
                               ],
                             ),

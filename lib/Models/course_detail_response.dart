@@ -31,7 +31,7 @@ class CourseDetailResponse {
     totalRatingPercent = json['total_rating_percent'];
     totalRating = json['total_rating'];
     studentEnrolled = json['student_enrolled'];
-    assessmentBookingSlotId = json['assessment_booking_slot_id'];
+    assessmentBookingSlotId = json['assessment_booking_slot_id'].toString();
   }
 
   Map<String, dynamic> toJson() {

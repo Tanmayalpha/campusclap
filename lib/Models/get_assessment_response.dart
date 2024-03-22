@@ -157,7 +157,7 @@ class Bookedslotes {
     userId = json['user_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    date = json['date'];
+    date = json['booking_date'];
     fromTime = json['from_time'];
     toTime = json['to_time'];
     url = json['url'];

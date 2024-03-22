@@ -46,6 +46,7 @@ class APIData {
   static const String updateUserProfile =
       domainApiLink + "update/profile?secret=";
   static const String addToCart = domainApiLink + "addtocart?secret=";
+  static const String acceptJob = domainApiLink + "update_apply_job_status?secret=";
   static const String getAssessment = domainApiLink + "get_assessment?secret=";
   static const String removeFromCart = domainApiLink + "remove/cart?secret=";
   static const String showCart = domainApiLink + "show/cart?secret=";

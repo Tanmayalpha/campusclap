@@ -924,7 +924,9 @@ class _AcademicDetailsState extends State<AcademicDetails> {
                                                   mark_format_PG:
                                                       selectpg,
                                                   mark_format_UG:
-                                                      selectug
+                                                      selectug,
+                                                  pgPassingYear: selectedPgPassingYear == null ? '': selectedPgPassingYear.toString(),
+                                                  ugPassingYear: selectedUgPassingYear.toString(),
                                                 )),
                                       );
                                     }
@@ -989,8 +991,9 @@ class _AcademicDetailsState extends State<AcademicDetails> {
       'mark_format10': select10th.toLowerCase() ?? '',
       'twelth_percent': twelfthPercentageC.text,
       'mark_format12': select12th.toLowerCase() ?? '',
-      'ug_status': selectedUgStatus,
+      'ug_status': selectedUgStatus ?? '',
       'ug_course': selectedUgCourrse?.id.toString(),
+      'pg_status': selectedPgStatus ?? '',
       'ug_specialisations': ugSpIdList.join(',') ?? '',
       'ug_year_of_passing':
           selectedUgPassingYear == null ? '' : selectedUgPassingYear.toString(),
@@ -1056,11 +1059,11 @@ class _AcademicDetailsState extends State<AcademicDetails> {
     setState(() {
       selectedUgStatus =
           profileData?.ugStatus == null || profileData?.ugStatus == ''
-              ? 'Completed'
+              ? selectedUgStatus
               : profileData?.ugStatus;
       selectedPgStatus =
           profileData?.pgStatus == null || profileData?.pgStatus == ''
-              ? 'Completed'
+              ? selectedPgStatus
               : profileData?.pgStatus;
     });
 

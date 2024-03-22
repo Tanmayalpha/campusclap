@@ -8,6 +8,7 @@ import 'package:campusclap/utils/extentions.dart';
 import 'package:campusclap/utils/globle.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UploadProfileDocScreen extends StatefulWidget {
   const UploadProfileDocScreen(
@@ -29,7 +30,7 @@ class UploadProfileDocScreen extends StatefulWidget {
         this.mark_format12,
         this.mark_format10,
         this.mark_format_UG,
-        this.mark_format_PG,
+        this.mark_format_PG,this.ugPassingYear,this.pgPassingYear,
         this.pgCgpa});
 
   final String? collegeName,
@@ -49,7 +50,7 @@ class UploadProfileDocScreen extends StatefulWidget {
       pgStatus,
       pgCourse,
       pgSpecialization,
-      pgCgpa;
+      pgCgpa, ugPassingYear, pgPassingYear;
   final bool? isFromDrawerMenu;
 
   @override
@@ -231,7 +232,7 @@ class _UploadProfileDocScreenState extends State<UploadProfileDocScreen> {
                 Container(
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width * 0.13),
-                  child: ComenBtn(
+                  child: isButtonLoading ?  const Center(child: CircularProgressIndicator(color: colors.primary,),) : ComenBtn(
                     title: 'Submit',
                     onPress: () {
                       if (_formKey.currentState!.validate()) {
@@ -255,9 +256,20 @@ class _UploadProfileDocScreenState extends State<UploadProfileDocScreen> {
       ),
     ));
   }
+bool isButtonLoading = false ;
+
 
  Future<void> pickFileFromStorage(String type) async{
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+   FilePickerResult? result;
+   if (type != 'aadhaar' && type !='resume')
+     {
+       result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions:  ['jpg']);
+
+
+     }else {
+     result = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions:  ['jpg', 'pdf', 'doc']);
+   }
+
 
     if (result != null) {
 
@@ -278,7 +290,12 @@ class _UploadProfileDocScreenState extends State<UploadProfileDocScreen> {
 
     });
   }
+
   Future<void> updateProfileMethod() async {
+
+   setState(() {
+     isButtonLoading  = true ;
+   });
 
     var parms = {};
     if (widget.isFromDrawerMenu ?? false){
@@ -288,18 +305,24 @@ class _UploadProfileDocScreenState extends State<UploadProfileDocScreen> {
         'tenth_percent':widget.tenthPercentage ?? '0.0',
         'mark_format10':widget.mark_format10 ?? '',
         'mark_format12':widget.mark_format12 ?? '',
-        'mark_format_UG':widget.mark_format12 ?? '',
-        'mark_format_PG':widget.mark_format12 ?? '',
+        'mark_format_UG':widget.mark_format_UG ?? '',
+        'mark_format_PG':widget.mark_format_PG ?? '',
         'twelth_percent':widget.twelfthPercentage ?? '0.0',
         'ug_status':widget.ugStatus ?? '',
+        'pg_status':widget.pgStatus ?? '',
         'ug_course':widget.ugCourse ?? '',
         'ug_specialisations':widget.ugSpecialization ?? '',
-        'ug_year_of_passing':widget.ugSpecialization ?? '',
+        'ug_year_of_passing':widget.ugPassingYear ?? '',
         'ug_aggregate':widget.ugCgpa ?? '',
         'pg_course':widget.pgCourse ?? '',
         'pg_specialisations':widget.pgSpecialization ?? '',
-        'pg_year_of_passing':widget.ugCgpa ?? '',
+        'pg_year_of_passing':widget.pgPassingYear ?? '',
         'pg_aggregate':widget.pgCgpa ?? '',
+
+        'college_name': widget.collegeName,
+        'college_state': widget.collegeState,
+          'college_dictrict': widget.collegeDistrict,
+        'college_place': widget.collegePlace
       };
     }
 
@@ -309,8 +332,16 @@ print('${parms}');
 
     if ((response?.status ?? false)) {
       if (widget.isFromDrawerMenu ?? false){
+        setState(() {
+          isButtonLoading  = false ;
+        });
+        Fluttertoast.showToast(msg: 'Files updated successfully!');
         Navigator.pop(context, true);
       }else {
+        setState(() {
+          isButtonLoading  = false ;
+        });
+        Fluttertoast.showToast(msg: 'Profile Completed!');
         Navigator.push(
           context,
           MaterialPageRoute(
