@@ -1,6 +1,7 @@
 class APIData {
   // Replace with your domain link : http://example.com/public/
-  static const String domainLink = "https://campus.developmentalphawizz.com/";
+  //static const String domainLink = "https://campus.developmentalphawizz.com/";
+  static const String domainLink = "https://admin.clickscampus.com/";
   static const String domainApiLink = domainLink + "api/";
 
   // API Links
